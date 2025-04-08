@@ -74,6 +74,7 @@ export const MATCH_NUMBER_KEYS = [
   "NT:/AdvantageKit/DriverStation/MatchNumber",
   "NT:/FMSInfo/MatchNumber"
 ];
+export const COMMANDS_KEYS = ["/Commands", "NT:/AdvantageKit/Commands"];
 
 /** Returns the version of the key without the merge prefix. */
 export function removeMergePrefix(key: string): string {
