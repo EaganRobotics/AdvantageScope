@@ -43,6 +43,7 @@ export default class Sidebar {
     "systemTime",
     "DSLog",
     "DSEvents",
+    "Commands",
     ZEBRA_LOG_KEY
   ];
   private HIDDEN_KEYS = [".schema", "Metadata", "RealMetadata", "ReplayMetadata"];
