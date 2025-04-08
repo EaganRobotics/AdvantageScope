@@ -10,6 +10,10 @@ on:
   release:
     types: [published]
 
+# necessary for pushing build artifacts
+permissions:
+  contents: write
+
 jobs:
   compile:
     name: Check & Compile
@@ -43,10 +47,12 @@ jobs:
             bundles/*.js
             bundles/*.wasm
       - name: Compile bundles (WPILib)
+        if: false # disable WPILib distribution
         run: npm run compile
         env:
           ASCOPE_DISTRIBUTOR: WPILIB
       - name: Upload bundles (WPILib)
+        if: false # disable WPILib distribution
         uses: actions/upload-artifact@v4
         with:
           name: bundles-wpilib
@@ -56,6 +62,7 @@ jobs:
 
   build-ios:
     name: Build for iOS
+    if: false # disable for faster builds
     runs-on: macos-15
 
     steps:
@@ -271,6 +278,7 @@ jobs:
   build-wpilib-win:
     name: "WPILib: Build for Windows (${{ matrix.arch }})"
     needs: compile
+    if: false # disable WPILib distribution
     runs-on: windows-latest
 
     strategy:
@@ -332,6 +340,7 @@ jobs:
   build-wpilib-mac:
     name: "WPILib: Build for macOS (${{ matrix.arch }})"
     needs: compile
+    if: false # disable WPILib distribution
     runs-on: macos-latest
 
     strategy:
@@ -406,6 +415,7 @@ jobs:
   build-wpilib-linux:
     name: "WPILib: Build for Linux (${{ matrix.arch }})"
     needs: compile
+    if: false # disable WPILib distribution
     runs-on: ubuntu-latest
 
     strategy:
@@ -466,7 +476,8 @@ jobs:
 
   finalize-release:
     name: Finalize Release
-    needs: [build-win, build-mac, build-linux, build-wpilib-win, build-wpilib-mac, build-wpilib-linux]
+    # needs: [build-win, build-mac, build-linux, build-wpilib-win, build-wpilib-mac, build-wpilib-linux]
+    needs: [build-win, build-mac, build-linux] # disable WPILib builds for faster release
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
 
